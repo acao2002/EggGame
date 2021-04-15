@@ -9,6 +9,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+
+        pickRadius: 0,
         speed: 0,
         maxx: 0,
         minx:0,
@@ -59,12 +61,30 @@ cc.Class({
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyD, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyU, this);
     },
+    
+    getDistance: function (egg) {
+        // Determine the distance according to the position of the Player node
+        var playerPos = this.node.getPosition();
+
+        // Calculate the distance between two nodes according to their positions
+        var dist = egg.position.sub(playerPos).mag();
+        console.log(dist);
+        return dist;
+    },
+
+    collectEgg: function(egg) {
+        if (this.getDistance(egg)< this.pickRadius) {
+            this.point += 1;
+            egg.destroy();
+            this.game.spawnegg(Math.random()*300, Math.random()*300);
+        }
+    },
 
 
     onLoad: function() {
+        this.point = 0;
         this.directionx = 0;
         this.directiony = 0;
-
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyD, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyU, this);
     },
@@ -74,8 +94,10 @@ cc.Class({
     },
 
     update: function(dt) {
-        this.node.x += this.directionx*this.speed
-        this.node.y += this.directiony*this.speed
+        
+        this.collectEgg(this.game.egg1)
+        this.node.x += this.directionx*this.speed;
+        this.node.y += this.directiony*this.speed;
         if (this.node.y > this.maxy){
             this.node.y = this.maxy
         }
