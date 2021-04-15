@@ -10,6 +10,7 @@ cc.Class({
 
     properties: {
 
+        Eggnum: 0,
         mainplayer: {
             default: null,
             type: cc.Node,
@@ -24,26 +25,39 @@ cc.Class({
         }
     },
 
-    spawnegg: function (x,y){
+    spawnegg: function (n){
 
         var newEgg = cc.instantiate(this.egg);
         this.node.addChild(newEgg);
-        newEgg.setPosition(x,y);
+        newEgg.string = n;
+        newEgg.setPosition((Math.random()-0.5)*1200, (Math.random()-0.5)*1000);
         newEgg.getComponent('egg').game = this;
-        this.egg1 = newEgg;
+        this.egglist.push(newEgg);
+    },
+
+    initiateEgg: function(){
+        for (var x = 0; x< this.Eggnum; x++){
+            this.spawnegg(x)
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad: function() {
-
-        this.spawnegg(0,0);
+        this.egglist = [];
+        this.initiateEgg();
         this.mainplayer.getComponent('mainplayer').game = this;
+        for (var i = 0; i< this.Eggnum; i++){
+            console.log(this.egglist[i].position)
+        }
+        
     },
 
     start () {
 
     },
 
-    update (dt) {},
+    update: function(dt) {
+ 
+    },
 });

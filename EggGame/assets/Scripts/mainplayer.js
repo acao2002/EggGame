@@ -68,16 +68,21 @@ cc.Class({
 
         // Calculate the distance between two nodes according to their positions
         var dist = egg.position.sub(playerPos).mag();
-        console.log(dist);
+
         return dist;
     },
 
-    collectEgg: function(egg) {
-        if (this.getDistance(egg)< this.pickRadius) {
-            this.point += 1;
-            egg.destroy();
-            this.game.spawnegg(Math.random()*300, Math.random()*300);
+    collectEgg: function(egglist, n) {
+        for (var i = 0; i<n; i++){
+
+            if (this.getDistance(egglist[i])< this.pickRadius) {
+                this.point += 1;
+                egglist[i].destroy();
+                egglist.splice(i,1);
+                this.game.spawnegg();
+            }
         }
+        
     },
 
 
@@ -94,8 +99,8 @@ cc.Class({
     },
 
     update: function(dt) {
-        
-        this.collectEgg(this.game.egg1)
+
+        this.collectEgg(this.game.egglist, this.game.Eggnum);
         this.node.x += this.directionx*this.speed;
         this.node.y += this.directiony*this.speed;
         if (this.node.y > this.maxy){
