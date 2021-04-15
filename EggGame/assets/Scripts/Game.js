@@ -41,15 +41,18 @@ cc.Class({
         }
     },
 
-    // LIFE-CYCLE CALLBACKS:
+    initiatePlayer: function (){
+        var newplayer = cc.instantiate(this.remoteplayer);
+        newplayer.getComponent('remoteplayer').game = this;
+        newplayer.setPosition(0,0);
+        this.node.addChild(newplayer);
+    },
 
     onLoad: function() {
         this.egglist = [];
         this.initiateEgg();
+        this.initiatePlayer();
         this.mainplayer.getComponent('mainplayer').game = this;
-        for (var i = 0; i< this.Eggnum; i++){
-            console.log(this.egglist[i].position)
-        }
         
     },
 
