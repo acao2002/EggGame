@@ -87,6 +87,8 @@ cc.Class({
 
 
     onLoad: function() {
+
+        this.name ='you';
         this.point = 0;
         this.directionx = 0;
         this.directiony = 0;

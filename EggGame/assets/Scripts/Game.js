@@ -27,6 +27,11 @@ cc.Class({
         timelabel: {
             default: null,
             type: cc.Label
+        },
+
+        leaderboard: {
+            default: null,
+            type: cc.Label
         }
     },
 
@@ -51,6 +56,7 @@ cc.Class({
         var newplayer = cc.instantiate(this.remoteplayer);
         newplayer.getComponent('remoteplayer').game = this;
         newplayer.setPosition(0,-0);
+        newplayer.name = this.makeid(6);
         this.node.addChild(newplayer);
         this.remotelist.push(newplayer);
     },
@@ -61,12 +67,45 @@ cc.Class({
         }
     },
 
+    makeid(length) {
+        var result           = [];
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+          result.push(characters.charAt(Math.floor(Math.random() * 
+     charactersLength)));
+       }
+       return result.join('');
+    },
+
+    updateleaderboard(){
+        var result ="Leaderboard:";
+        this.remotelist.sort(function(a, b){a.point<b.point})
+        for(var i = 0; i< (this.remoteNum+1); i++){
+            var thisplayer = this.remotelist[i];
+            if (thisplayer.name != 'you'){
+                var place = "\n"+ thisplayer.name +": " + thisplayer.getComponent('remoteplayer').point +" eggs";
+                result+= place;
+            }
+            else {
+                var place = "\n"+ thisplayer.name +": " + thisplayer.getComponent('mainplayer').point +" eggs";
+                result+= place;
+            }
+            
+           
+        }
+
+        return result;
+    },
+
     onLoad: function() {
         this.egglist = [];
         this.remotelist =[];
         this.initiateEgg();
         this.initiatePlayer();
         this.mainplayer.getComponent('mainplayer').game = this;
+        this.remotelist.push(this.mainplayer);
+        this.mainplayer.name = "you";
         
     },
 
@@ -81,6 +120,7 @@ cc.Class({
         if (this.timer < 0){
             cc.director.pause();
         }
+        this.leaderboard.string = this.updateleaderboard();
  
     },
 });

@@ -118,8 +118,8 @@
     "_enabled": true,
     "pickRadius": 50,
     "speed": 5,
-    "maxx": 900,
-    "minx": -900,
+    "maxx": 870,
+    "minx": -870,
     "maxy": 600,
     "miny": -700,
     "_id": ""
