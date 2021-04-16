@@ -58,9 +58,9 @@
         0,
         0,
         1,
-        0.18262,
-        0.18262,
-        0.18262
+        0.138,
+        0.138,
+        0.138
       ]
     },
     "_eulerAngles": {
@@ -117,11 +117,11 @@
     },
     "_enabled": true,
     "pickRadius": 50,
-    "speed": 10,
-    "maxx": 770,
-    "minx": -770,
-    "maxy": 490,
-    "miny": -500,
+    "speed": 5,
+    "maxx": 900,
+    "minx": -900,
+    "maxy": 600,
+    "miny": -700,
     "_id": ""
   },
   {
@@ -130,7 +130,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "5c2ea38b-0af2-4a45-a977-27b3870f8ac5"
     },
     "fileId": "71+xvhBatByJiLiuGWQ2E6",
     "sync": false

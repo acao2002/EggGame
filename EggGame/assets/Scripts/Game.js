@@ -6,11 +6,12 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
+
     extends: cc.Component,
-
     properties: {
-
+        timer: 0,
         Eggnum: 0,
+        remoteNum: 0,
         mainplayer: {
             default: null,
             type: cc.Node,
@@ -22,6 +23,10 @@ cc.Class({
         egg: {
             default: null,
             type: cc.Prefab
+        },
+        timelabel: {
+            default: null,
+            type: cc.Label
         }
     },
 
@@ -30,7 +35,8 @@ cc.Class({
         var newEgg = cc.instantiate(this.egg);
         this.node.addChild(newEgg);
         newEgg.string = n;
-        newEgg.setPosition((Math.random()-0.5)*1200, (Math.random()-0.5)*1000);
+        newEgg.setPosition((Math.random()-0.5)*1500, (Math.random()-0.5)*1200);
+        newEgg.color = new cc.Color(Math.random()*255,Math.random()*255, Math.random()*255);
         newEgg.getComponent('egg').game = this;
         this.egglist.push(newEgg);
     },
@@ -41,15 +47,23 @@ cc.Class({
         }
     },
 
-    initiatePlayer: function (){
+    spawnPlayer: function (){
         var newplayer = cc.instantiate(this.remoteplayer);
         newplayer.getComponent('remoteplayer').game = this;
-        newplayer.setPosition(0,0);
+        newplayer.setPosition(0,-0);
         this.node.addChild(newplayer);
+        this.remotelist.push(newplayer);
+    },
+
+    initiatePlayer: function () {
+        for (var x = 0; x< this.remoteNum; x++){
+            this.spawnPlayer();
+        }
     },
 
     onLoad: function() {
         this.egglist = [];
+        this.remotelist =[];
         this.initiateEgg();
         this.initiatePlayer();
         this.mainplayer.getComponent('mainplayer').game = this;
@@ -61,6 +75,12 @@ cc.Class({
     },
 
     update: function(dt) {
+
+        this.timer -= dt;
+        this.timelabel.string = "Time: "+ this.timer.toFixed(0);
+        if (this.timer < 0){
+            cc.director.pause();
+        }
  
     },
 });

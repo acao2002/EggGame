@@ -46,18 +46,18 @@ cc.Class({
 
         var eggx = egg.x;
         var eggy = egg.y;
-        if (this.node.x < (eggx-10)){
+        if (this.node.x < (eggx-5)){
             this.right();
         }
-        if (this.node.x > (eggx+10)) {
+        if (this.node.x > (eggx+5)) {
             this.left();
         }
 
         
-        if(this.node.y > (eggy+10)){
+        if(this.node.y > (eggy+5)){
                 this.down();
             }
-        if(this.node.y < (eggy-10)){
+        if(this.node.y < (eggy-5)){
                 this.up();
             }
     },
