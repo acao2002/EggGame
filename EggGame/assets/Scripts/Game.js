@@ -59,6 +59,7 @@ cc.Class({
         newplayer.name = this.makeid(6);
         this.node.addChild(newplayer);
         this.remotelist.push(newplayer);
+        newplayer.point = 0;
     },
 
     initiatePlayer: function () {
@@ -78,27 +79,21 @@ cc.Class({
        return result.join('');
     },
 
-    updateleaderboard(){
-        var result ="Leaderboard:";
-        this.remotelist.sort(function(a, b){a.point<b.point})
+    updateleaderboardlabel(list){
+        var result ="LEADERBOARD:\n";
         for(var i = 0; i< (this.remoteNum+1); i++){
-            var thisplayer = this.remotelist[i];
-            if (thisplayer.name != 'you'){
-                var place = "\n"+ thisplayer.name +": " + thisplayer.getComponent('remoteplayer').point +" eggs";
-                result+= place;
-            }
-            else {
-                var place = "\n"+ thisplayer.name +": " + thisplayer.getComponent('mainplayer').point +" eggs";
-                result+= place;
-            }
-            
-           
+            var thisplayer = list[i][0];  
+            var point = list[i][1];   
+            var place = "\n"+ thisplayer+": " + point +" eggs";
+            result+= place;  
         }
 
         return result;
     },
 
     onLoad: function() {
+        
+        this.eventchange = false;
         this.egglist = [];
         this.remotelist =[];
         this.initiateEgg();
@@ -106,6 +101,7 @@ cc.Class({
         this.mainplayer.getComponent('mainplayer').game = this;
         this.remotelist.push(this.mainplayer);
         this.mainplayer.name = "you";
+        this.mainplayer.point =0;
         
     },
 
@@ -113,14 +109,47 @@ cc.Class({
 
     },
 
-    update: function(dt) {
+    updatepoint(player) {
+        if (player.name == "you"){
+            if(player.getComponent('mainplayer').collectEgg(this.egglist, this.Eggnum)){
+                player.point+=1;
+            }
+        }
+        else{
+            if(player.getComponent('remoteplayer').collectEgg(this.egglist, this.Eggnum)){
+                player.point+=1;
+            }
+        }
+    },
 
+    updategamepoint(list){
+        for (var i = 0; i<this.remoteNum+1; i++){
+            this.updatepoint(list[i]);
+        }
+    },
+
+    updateleaderboard(){
+        var sortlist = [];
+        for (var i = 0; i<this.remoteNum+1; i++){
+            sortlist.push([this.remotelist[i].name, this.remotelist[i].point]);
+        }
+        sortlist.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+
+        return sortlist
+    },
+
+
+    update: function(dt) {
+        this.updategamepoint(this.remotelist);
         this.timer -= dt;
         this.timelabel.string = "Time: "+ this.timer.toFixed(0);
         if (this.timer < 0){
             cc.director.pause();
         }
-        this.leaderboard.string = this.updateleaderboard();
+        console.log(this.eventchange);
+        //this.leaderboard.string = this.updateleaderboardlabel(this.updateleaderboard());
  
     },
 });

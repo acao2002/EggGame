@@ -29,16 +29,18 @@ cc.Class({
     },
 
     collectEgg: function(egglist, n) {
+        var collected = false;
         for (var i = 0; i<n; i++){
 
             if (this.getDistance(egglist[i])< this.pickRadius) {
-                this.point += 1;
                 egglist[i].destroy();
                 egglist.splice(i,1);
                 this.game.spawnegg();
                 this.index = Math.floor(Math.random()*this.game.Eggnum);
+                collected =true;
             }
         }
+        return collected;
         
     },
 
@@ -64,7 +66,6 @@ cc.Class({
 
     onLoad: function() {
         this.timer = 0;
-        this.point = 0;
         this.directionx = 0;
         this.directiony = 0;
         this.index = Math.floor(Math.random()*this.game.Eggnum);
@@ -98,11 +99,9 @@ cc.Class({
     },
 
     update: function(dt) {
-
+        this.game.eventchange = this.collectEgg(this.game.egglist, this.game.Eggnum);
         this.findEgg(this.game.egglist[this.index]);
         this.timer += dt;
-
-        this.collectEgg(this.game.egglist, this.game.Eggnum);
         this.node.x += this.directionx*this.speed;
         this.node.y += this.directiony*this.speed;
         if (this.node.y > this.maxy){

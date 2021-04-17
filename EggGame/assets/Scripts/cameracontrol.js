@@ -21,6 +21,7 @@ cc.Class({
     },
 
     update (dt) {
+        
         let target_position = this.playenode.getPosition();
         let current_position = this.node.getPosition();
         current_position.lerp(target_position, 0.05, current_position);

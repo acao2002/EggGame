@@ -374,7 +374,7 @@
       "array": [
         -13.18408,
         -9,
-        322.38288052628695,
+        322.2480580339892,
         0,
         0,
         0,
@@ -518,20 +518,20 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 475.94,
+      "width": 0,
       "height": 100.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 1,
+      "y": 1
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        1178.986,
-        877.59,
+        1223.309,
+        1099.204,
         0,
         0,
         0,
@@ -571,8 +571,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Leaderboard:",
-    "_N$string": "Leaderboard:",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 80,
     "_lineHeight": 80,
     "_enableWrapText": true,
@@ -582,7 +582,7 @@
     "_batchAsBitmap": false,
     "_styleFlags": 0,
     "_underlineHeight": 0,
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 1,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
@@ -680,7 +680,7 @@
     "_enabled": true,
     "timer": 30,
     "Eggnum": 10,
-    "remoteNum": 4,
+    "remoteNum": 8,
     "mainplayer": {
       "__id__": 4
     },
