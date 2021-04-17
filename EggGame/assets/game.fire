@@ -680,7 +680,7 @@
     "_enabled": true,
     "timer": 30,
     "Eggnum": 10,
-    "remoteNum": 8,
+    "remoteNum": 10,
     "mainplayer": {
       "__id__": 4
     },

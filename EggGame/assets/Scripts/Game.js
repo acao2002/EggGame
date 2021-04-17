@@ -91,9 +91,20 @@ cc.Class({
         return result;
     },
 
+    initializeleaderboard(){
+        var result ="LEADERBOARD:\n";
+        for(var i = 0; i< (this.remoteNum+1); i++){
+            var thisplayer = this.remotelist[i].name;  
+            var point = 0;   
+            var place = "\n"+ thisplayer+": " + point +" eggs";
+            result+= place;  
+        }
+
+        return result;
+    },
+
     onLoad: function() {
         
-        this.eventchange = false;
         this.egglist = [];
         this.remotelist =[];
         this.initiateEgg();
@@ -102,6 +113,7 @@ cc.Class({
         this.remotelist.push(this.mainplayer);
         this.mainplayer.name = "you";
         this.mainplayer.point =0;
+        this.leaderboard.string = this.initializeleaderboard();
         
     },
 
@@ -148,8 +160,6 @@ cc.Class({
         if (this.timer < 0){
             cc.director.pause();
         }
-        console.log(this.eventchange);
-        //this.leaderboard.string = this.updateleaderboardlabel(this.updateleaderboard());
  
     },
 });

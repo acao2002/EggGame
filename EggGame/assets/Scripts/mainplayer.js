@@ -81,6 +81,7 @@ cc.Class({
                 egglist.splice(i,1);
                 this.game.spawnegg();
                 collected = true;
+                this.game.leaderboard.string = this.game.updateleaderboardlabel(this.game.updateleaderboard());
             }
         }
         return collected;
@@ -101,8 +102,6 @@ cc.Class({
     },
 
     update: function(dt) {
-        this.game.eventchange = this.collectEgg(this.game.egglist, this.game.Eggnum);
-    
         this.node.x += this.directionx*this.speed;
         this.node.y += this.directiony*this.speed;
         if (this.node.y > this.maxy){

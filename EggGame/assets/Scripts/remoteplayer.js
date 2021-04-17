@@ -38,6 +38,7 @@ cc.Class({
                 this.game.spawnegg();
                 this.index = Math.floor(Math.random()*this.game.Eggnum);
                 collected =true;
+                this.game.leaderboard.string = this.game.updateleaderboardlabel(this.game.updateleaderboard());
             }
         }
         return collected;
@@ -99,7 +100,8 @@ cc.Class({
     },
 
     update: function(dt) {
-        this.game.eventchange = this.collectEgg(this.game.egglist, this.game.Eggnum);
+        //this.game.eventchange = this.collectEgg(this.game.egglist, this.game.Eggnum) || this.game.mainplayer.getComponent('mainplayer').collectEgg(this.game.egglist,this.game.Eggnum);
+        
         this.findEgg(this.game.egglist[this.index]);
         this.timer += dt;
         this.node.x += this.directionx*this.speed;
