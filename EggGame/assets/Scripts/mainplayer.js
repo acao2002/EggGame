@@ -82,6 +82,7 @@ cc.Class({
                 this.game.spawnegg();
                 collected = true;
                 this.game.leaderboard.string = this.game.updateleaderboardlabel(this.game.updateleaderboard());
+                this.game.updatepoint(this.node);
             }
         }
         return collected;
@@ -102,6 +103,7 @@ cc.Class({
     },
 
     update: function(dt) {
+        this.collectEgg(this.game.egglist, this.game.Eggnum);
         this.node.x += this.directionx*this.speed;
         this.node.y += this.directiony*this.speed;
         if (this.node.y > this.maxy){

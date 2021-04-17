@@ -81,7 +81,7 @@ cc.Class({
 
     updateleaderboardlabel(list){
         var result ="LEADERBOARD:\n";
-        for(var i = 0; i< (this.remoteNum+1); i++){
+        for(var i = 0; i< (Math.min(this.remoteNum+1, 6)); i++){
             var thisplayer = list[i][0];  
             var point = list[i][1];   
             var place = "\n"+ thisplayer+": " + point +" eggs";
@@ -93,7 +93,7 @@ cc.Class({
 
     initializeleaderboard(){
         var result ="LEADERBOARD:\n";
-        for(var i = 0; i< (this.remoteNum+1); i++){
+        for(var i = 0; i< Math.min(this.remoteNum+1, 6); i++){
             var thisplayer = this.remotelist[i].name;  
             var point = 0;   
             var place = "\n"+ thisplayer+": " + point +" eggs";
@@ -122,22 +122,7 @@ cc.Class({
     },
 
     updatepoint(player) {
-        if (player.name == "you"){
-            if(player.getComponent('mainplayer').collectEgg(this.egglist, this.Eggnum)){
-                player.point+=1;
-            }
-        }
-        else{
-            if(player.getComponent('remoteplayer').collectEgg(this.egglist, this.Eggnum)){
-                player.point+=1;
-            }
-        }
-    },
-
-    updategamepoint(list){
-        for (var i = 0; i<this.remoteNum+1; i++){
-            this.updatepoint(list[i]);
-        }
+        player.point+=1;
     },
 
     updateleaderboard(){
@@ -154,7 +139,6 @@ cc.Class({
 
 
     update: function(dt) {
-        this.updategamepoint(this.remotelist);
         this.timer -= dt;
         this.timelabel.string = "Time: "+ this.timer.toFixed(0);
         if (this.timer < 0){
