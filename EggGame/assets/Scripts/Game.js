@@ -84,7 +84,7 @@ cc.Class({
         for(var i = 0; i< (Math.min(this.remoteNum+1, 6)); i++){
             var thisplayer = list[i][0];  
             var point = list[i][1];   
-            var place = "\n"+ thisplayer+": " + point +" eggs";
+            var place = "\n"+ (i+1).toString() +". " + thisplayer+": " + point +" eggs";
             result+= place;  
         }
 
@@ -96,7 +96,7 @@ cc.Class({
         for(var i = 0; i< Math.min(this.remoteNum+1, 6); i++){
             var thisplayer = this.remotelist[i].name;  
             var point = 0;   
-            var place = "\n"+ thisplayer+": " + point +" eggs";
+            var place = "\n"+ (i+1).toString() +". "+ thisplayer+": " + point +" eggs";
             result+= place;  
         }
 
@@ -104,7 +104,6 @@ cc.Class({
     },
 
     onLoad: function() {
-        
         this.egglist = [];
         this.remotelist =[];
         this.initiateEgg();
@@ -137,8 +136,20 @@ cc.Class({
         return sortlist
     },
 
+    updateCollectEgg(){
+        for (var i = 0; i<this.remoteNum+1; i++){
+            if (this.remotelist[i].name == "you") {
+                this.mainplayer.getComponent('mainplayer').collectEgg(this.egglist, this.Eggnum);
+            }
+            else {
+                this.remotelist[i].getComponent('remoteplayer').collectEgg(this.egglist, this.Eggnum);
+            }
+        }
+    },
+
 
     update: function(dt) {
+
         this.timer -= dt;
         this.timelabel.string = "Time: "+ this.timer.toFixed(0);
         if (this.timer < 0){
