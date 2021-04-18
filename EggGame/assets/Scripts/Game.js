@@ -32,6 +32,18 @@ cc.Class({
         leaderboard: {
             default: null,
             type: cc.Label
+        },
+        camera: {
+            default: null,
+            type: cc.Node
+        },
+        button: {
+            default: null,
+            type: cc.Node
+        },
+        finalscore: {
+            default: null,
+            type: cc.Label
         }
     },
 
@@ -104,6 +116,8 @@ cc.Class({
     },
 
     onLoad: function() {
+
+        this.button.active =false;
         this.egglist = [];
         this.remotelist =[];
         this.initiateEgg();
@@ -113,6 +127,8 @@ cc.Class({
         this.mainplayer.name = "you";
         this.mainplayer.point =0;
         this.leaderboard.string = this.initializeleaderboard();
+        this.finalscore.enabled = false;
+
         
     },
 
@@ -147,14 +163,31 @@ cc.Class({
         }
     },
 
+    gameOver(){
+        for (var i = 0; i<this.remoteNum+1; i++){
+            this.remotelist[i].active = false; 
+        }
+        for (var k = 0; k<this.Eggnum; k++){
+            this.egglist[k].active = false; 
+        }
+        this.timelabel.string = "";
+        this.camera.setPosition(0,0);
+     
+        this.button.active = true;
+        this.finalscore.enabled = true;
+        this.leaderboard.enabled = false;
+    },
 
     update: function(dt) {
-
-        this.timer -= dt;
-        this.timelabel.string = "Time: "+ this.timer.toFixed(0);
-        if (this.timer < 0){
-            cc.director.pause();
+        this.finalscore.string = this.leaderboard.string;
+        if (this.timer > 0){
+            this.timer -= dt;
+            this.timelabel.string = "Time: "+ this.timer.toFixed(0);
         }
+        if (this.timer < 0){
+            this.gameOver();
+        }
+       
  
     },
 });

@@ -31,8 +31,8 @@ cc.Class({
         if (this.time > this.delay){
             this.time = 0;
             this.delay = this.delay = Math.floor(Math.random()*5)/10;
-            console.log(this.delay);
             this.Game.getComponent('Game').updateCollectEgg();
         }
+        
     },
 });
