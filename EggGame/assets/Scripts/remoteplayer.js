@@ -18,8 +18,9 @@ cc.Class({
         miny: 0,
     },
 
+    //get distance between an egg and the player
+
     getDistance: function (egg) {
-        // Determine the distance according to the position of the Player node
         var playerPos = this.node.getPosition();
 
         // Calculate the distance between two nodes according to their positions
@@ -28,12 +29,18 @@ cc.Class({
         return dist;
     },
 
+     //check if player is touching an egg among the list of existing eggs. If yes then remove the egg and create a new egg in the list and spawn it in a game.
+    //this function is called and updated randomly(0.1 to 0.5s) by the server simulator to update whether a player object touches an egg object at the moment and the egg list. 
+    /*To handle the random update(0.1s to 0.5s), I included a method to handle the latency: if distance is between pickRadius and pickRaduius +30, then we assume the player is going to hit the egg, calling the updating egg commands after a small delay.
+        If the system manage to update quickly enough, then we just check whether its in the pickRadius. If not, we update based on the assumption above.
+    */
+
     collectEgg: function(egglist, n) {
         var collected = false;
 
         for (var i = 0; i<n; i++){
             
-            if (this.getDistance(egglist[i])< (this.pickRadius+40) && this.getDistance(egglist[i])> (this.pickRadius)){
+            if (this.getDistance(egglist[i])< (this.pickRadius+30) && this.getDistance(egglist[i])> (this.pickRadius)){
                 
                 this.scheduleOnce(function(){ 
 
@@ -63,6 +70,7 @@ cc.Class({
         
     },
 
+    //AI for remote players to find and collect eggs
     findEgg: function(egg) {
 
         var eggx = egg.x;
@@ -118,6 +126,8 @@ cc.Class({
     },
 
     update: function(dt) {
+
+         //player movement and boundaries
         
         this.findEgg(this.game.egglist[this.index]);
    

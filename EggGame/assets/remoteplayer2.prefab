@@ -117,7 +117,7 @@
     },
     "_enabled": true,
     "pickRadius": 50,
-    "speed": 6,
+    "speed": 5,
     "maxx": 870,
     "minx": -870,
     "maxy": 600,

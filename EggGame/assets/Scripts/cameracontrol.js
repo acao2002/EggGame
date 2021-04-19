@@ -21,6 +21,7 @@ cc.Class({
     },
 
     update (dt) {
+        // camera follow player 
         
         let target_position = this.playenode.getPosition();
         let current_position = this.node.getPosition();

@@ -47,6 +47,7 @@ cc.Class({
         }
     },
 
+    // spawn a new egg object on the screen
     spawnegg: function (n){
 
         var newEgg = cc.instantiate(this.egg);
@@ -58,11 +59,16 @@ cc.Class({
         this.egglist.push(newEgg);
     },
 
+    //spawn N number of eggs as specified by the constant 
+
     initiateEgg: function(){
         for (var x = 0; x< this.Eggnum; x++){
             this.spawnegg(x)
         }
     },
+
+    
+    //spawn a remote player
 
     spawnPlayer: function (){
         var newplayer = cc.instantiate(this.remoteplayer);
@@ -74,11 +80,14 @@ cc.Class({
         newplayer.point = 0;
     },
 
+    // spawn N numbers of remote player as specified by the constant
     initiatePlayer: function () {
         for (var x = 0; x< this.remoteNum; x++){
             this.spawnPlayer();
         }
     },
+
+    // assign a random name to the remote player
 
     makeid(length) {
         var result           = [];
@@ -90,6 +99,8 @@ cc.Class({
        }
        return result.join('');
     },
+
+    // update the leaderboard based on the number of eggs each player collected. This method is called within the server method CollectEgg(check mainplayer.js and remoteplayer.js)
 
     updateleaderboardlabel(list){
         var result ="LEADERBOARD:\n";
@@ -135,10 +146,14 @@ cc.Class({
     start () {
 
     },
-
+    //update point whenever collect egg. Called within the server method(check mainplayer.js and remoteplayer.js)
     updatepoint(player) {
         player.point+=1;
     },
+
+    //update the order of players based on there eggs collected. 
+    //return a sorted list of players 
+    //called in updateleaderboardlabel method
 
     updateleaderboard(){
         var sortlist = [];
@@ -152,6 +167,11 @@ cc.Class({
         return sortlist
     },
 
+    /* This method put together the server update function(CollectEgg) of each player into a method that checks the eggs all player collected and regulate eggs 
+    spawning at the same time. 
+    This method is called within the server Node(check server.js) to update the state of the game on a random interval */
+
+
     updateCollectEgg(){
         for (var i = 0; i<this.remoteNum+1; i++){
             if (this.remotelist[i].name == "you") {
@@ -163,6 +183,9 @@ cc.Class({
         }
     },
 
+
+    //show the result when game is over 
+    
     gameOver(){
         for (var i = 0; i<this.remoteNum+1; i++){
             this.remotelist[i].active = false; 

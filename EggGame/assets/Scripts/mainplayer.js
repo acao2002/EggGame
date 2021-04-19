@@ -10,7 +10,7 @@ cc.Class({
 
     properties: {
 
-        pickRadius: 0,
+        pickRadius: 0, // distance to pickup collect egg signal
         speed: 0,
         maxx: 0,
         minx:0,
@@ -62,6 +62,7 @@ cc.Class({
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyU, this);
     },
     
+    //get distance between an egg and the player
     getDistance: function (egg) {
         // Determine the distance according to the position of the Player node
         var playerPos = this.node.getPosition();
@@ -72,15 +73,22 @@ cc.Class({
         return dist;
     },
 
+
+    //check if player is touching an egg among the list of existing eggs. If yes then remove the egg and create a new egg in the list and spawn it in a game.
+    //this function is called and updated randomly(0.1 to 0.5s) by the server simulator to update whether a player object touches an egg object at the moment and the egg list. 
+    /*To handle the random update(0.1s to 0.5s), I included a method to handle the latency: if distance is between pickRadius and pickRaduius +30, then we assume the player is going to hit the egg, calling the updating egg commands after a small delay.
+        If the system manage to update quickly enough, then we just check whether its in the pickRadius. If not, we update based on the assumption above.
+    */
+
     collectEgg: function(egglist, n) {
         var collected = false;
         for (var i = 0; i<n; i++){
 
-            if (this.getDistance(egglist[i])< (this.pickRadius+40) && this.getDistance(egglist[i])> (this.pickRadius)){
+            if (this.getDistance(egglist[i])< (this.pickRadius+30) && this.getDistance(egglist[i])> (this.pickRadius)){
                 
                 this.scheduleOnce(function(){ 
 
-                },0.4);
+                },0.3);
                 egglist[i].destroy();
                 egglist.splice(i,1);
                 this.game.spawnegg();
@@ -122,7 +130,8 @@ cc.Class({
     },
 
     update: function(dt) {
-  
+        //player movement and boundaries
+
         this.node.x += this.directionx*this.speed;
         this.node.y += this.directiony*this.speed;
         if (this.node.y > this.maxy){
