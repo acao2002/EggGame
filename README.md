@@ -27,3 +27,7 @@ update functions that update the state of the game according to user input sent 
 ## egg 
 
 - regulated by the Game element accordingly based on Server input.
+
+## demo 
+
+Test the game [here](https://sharp-hawking-3302a2.netlify.app/)
